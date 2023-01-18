@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator'
 import jwt from 'jsonwebtoken';
+import { BadRequestError } from '../errors/bad-request-error';
 import { validateRequest } from '../middlewares/validate-request';
 import { User } from '../models/user';
 
@@ -21,10 +22,7 @@ router.post('/api/users/signup', [
 
     const existingUser = await User.findOne({ email });
 
-    if (existingUser) {
-      console.log('Email already exists');
-      res.send({});
-    }
+    if (existingUser) throw new BadRequestError('Email already exists');
 
     const user = User.build({ email, password });
     await user.save();
@@ -42,7 +40,7 @@ router.post('/api/users/signup', [
       jwt: userJwt
     };
 
-    res.status(201).send(user);
+    return res.status(201).send(user);
 
   }
 );
