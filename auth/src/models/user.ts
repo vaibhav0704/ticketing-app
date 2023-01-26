@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { Password } from "../services/password";
 
-// AN interface that describes the properties required to create a new user
+// An interface that describes the properties required to create a new user
 interface UserAttrs {
   email: string;
   password: string;
@@ -50,6 +50,7 @@ userSchema.pre('save' ,async function(done) {
   done();
 });
 
+//  Purpose of this function is to allow TS to check the attributes provided to model
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 }
