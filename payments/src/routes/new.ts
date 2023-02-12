@@ -2,6 +2,7 @@ import { BadRequestError, NotAuthorizedError, NotFoundError, OrderStatus, requir
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Order } from '../models/order';
+import { Payment } from '../models/payment';
 import { stripe } from '../stripe';
 
 const router = express.Router()
@@ -10,16 +11,13 @@ router.post(
   '/api/payments',
   requireAuth,
   [
-    body('token')
-      .not()
-      .isEmpty(),
     body('orderId')
       .not()
       .isEmpty()
   ],
   validateRequest,
   async (req: Request, res: Response) => {
-    const { token, orderId } = req.body;
+    const { orderId } = req.body;
 
     const order = await Order.findById(orderId);
 
@@ -29,13 +27,34 @@ router.post(
 
     if (order.status === OrderStatus.Cancelled) throw new BadRequestError('Cannot pay for expired order');
 
-    await stripe.charges.create({
-      currency: 'inr',
-      amount: order.price * 100,
-      source: token
-    })
-
-    res.send({ success: true });
+    try {
+      const session = await stripe.checkout.sessions.create({
+        success_url: `https://ticketing.dev/orders/`,
+        cancel_url: `https://ticketing.dev/orders/`,
+        currency: "inr",
+        mode: 'payment',
+        line_items: [{
+          quantity: 1,
+          price_data: {
+            currency: 'inr',
+            unit_amount: order.price * 100,
+            product_data: {
+              name: order.id
+            }
+          }
+        }]
+      });
+      const payment = Payment.build({
+        orderId,
+        sessionId: session.id,
+      });
+      await payment.save();  
+  
+      res.status(201).send({ url: session.url });
+    } catch (err: any) {
+      console.log(err);
+      throw new BadRequestError(err.message)
+    }
   }
 );
 

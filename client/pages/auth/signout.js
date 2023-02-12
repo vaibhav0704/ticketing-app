@@ -1,4 +1,3 @@
-import { Text } from '@chakra-ui/react'
 import Router from 'next/router'
 import React, { useEffect } from 'react'
 import useRequest from '../../hooks/use-request'
@@ -17,10 +16,9 @@ const signout = () => {
 
   return (
     <div className="w-screen h-full flex justify-center items-center">
-      <Text
-        fontSize="2xl"
-        color="white"
-      >Signing you out...</Text>
+      <h1
+        className="my-2 transition-colors duration-300 transform text-gray-200 hover:text-blue-400 md:mx-4 md:my-0"
+      >Signing you out...</h1>
     </div>
   )
 }

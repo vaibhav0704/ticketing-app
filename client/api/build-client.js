@@ -1,14 +1,19 @@
 import axios from 'axios';
 
-export default ({ req }) =>{
+const buildClient = ({ req }) => {
 
   if (typeof window === 'undefined') {
     // we are on the server
-    return axios.create({
+    const instance = axios.create({
       baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
-      headers: req.headers
-    })
-
+      headers: {
+        ...req.headers,
+        accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+    });
+    instance.defaults.headers.get['content-type'] = 'application/json';
+    return instance;
   } else {
     //  we must be on the browser
     return axios.create({
@@ -16,4 +21,6 @@ export default ({ req }) =>{
     })
   }
 
-}
+};
+
+export default buildClient;

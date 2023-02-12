@@ -1,29 +1,31 @@
 import React from 'react';
 import '../styles/globals.css';
-import { ChakraProvider } from '@chakra-ui/react';
 import buildClient from '../api/build-client';
-import customTheme from '../customTheme';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import Header from '../components/Header';
 
-const AppComponent = ({ Component, pageProps, currentUser }) => {
+const App = ({ Component, pageProps, currentUser }) => {
   return (
-    <ChakraProvider theme={customTheme}>
-      <div className="w-screen h-screen flex flex-col bg-[#1a202c]">
-        <Header currentUser={currentUser} />
-        <Component {...pageProps} />
+    <div className="max-w-screen min-h-screen flex flex-col bg-[#1a202c]">
+      <Header currentUser={currentUser} />
+      <ToastContainer />
+      <div className="w-full min-h-screen flex flex-col">
+        <Component currentUser={currentUser} {...pageProps} />
       </div>
-    </ChakraProvider>
+    </div>
   )
-}
+};
 
-AppComponent.getInitialProps = async (appContext) => {
+
+App.getInitialProps = async (appContext) => {
 
   const client = buildClient(appContext.ctx);
   const { data } = await client.get('api/users/currentuser');
   
   let pageProps = {};
   if (appContext.Component.getInitialProps) 
-    pageProps = await appContext.Component.getInitialProps(appContext.ctx);
+    pageProps = await appContext.Component.getInitialProps(appContext.ctx, client, data.currentUser);
 
   return {
     pageProps,
@@ -32,4 +34,4 @@ AppComponent.getInitialProps = async (appContext) => {
 
 };
 
-export default AppComponent
+export default App
