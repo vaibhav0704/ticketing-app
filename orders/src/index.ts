@@ -33,7 +33,7 @@ const start = async () => {
     new ExpirationCompleteListener(natsWrapper.client).listen();
     new PaymentCompletedListener(natsWrapper.client).listen();
 
-    console.log('Starting');
+    console.log('Starting up');
     await mongoose.connect(process.env.MONGO_URI)
     console.log('done');
     app.listen(3000, () => {
