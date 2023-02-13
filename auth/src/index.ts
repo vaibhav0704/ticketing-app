@@ -9,7 +9,7 @@ const start = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('done')
     app.listen(3000, () => {
-      console.log('Listening to port 3000!!!');
+      console.log('Listening to port 3000!!!!');
     });
   } catch (err) {
     console.error(err);
