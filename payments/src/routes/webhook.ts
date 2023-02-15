@@ -1,10 +1,8 @@
 import { NotFoundError } from '@vaibhavtickets/common';
 import express, { Request, Response } from 'express';
-import { endpointSecret } from '../../whsec';
 import { PaymentCompletedPublisher } from '../events/publishers/payment-completed-publisher';
 import { Payment } from '../models/payment';
 import { natsWrapper } from '../nats-wrapper';
-import { stripe } from '../stripe';
 
 const router = express.Router();
 
