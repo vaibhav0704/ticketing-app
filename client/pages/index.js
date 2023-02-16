@@ -1,12 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
-import buildClient from '../api/build-client';
 
 const LandingPage = ({ currentUser, tickets }) => {
   const cards = tickets?.map((ticket, i) => {
     return (
-      <div 
+      <div
         key={i}
         className="flex max-w-md flex-col items-center justify-center"
       >
@@ -27,10 +25,13 @@ const LandingPage = ({ currentUser, tickets }) => {
 
           <div className="flex items-center justify-between px-3 py-2 bg-gray-700">
             <span className="font-bold text-gray-200">₹{ticket.price}</span>
-            <button className="px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 transform bg-gray-800 rounded hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">Add to cart</button>
+            <button className="px-2 py-1 text-xs font-semibold text-white uppercase transition-colors duration-300 
+              transform bg-gray-800 rounded hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">
+                Add to cart
+            </button>
           </div>
         </div>
-      </div>      
+      </div>
     )
   })
 
@@ -56,16 +57,5 @@ LandingPage.getInitialProps = async (context, client, currentUser) => {
     // console.log(e)
   }
 };
-
-// export async function getServerSideProps(ctx) {
-//   const client = buildClient(ctx);
-//   const { data } = await client.get('/api/users/currentuser');
-//   console.log(data);
-//   return {
-//     props: {
-//       ...data,
-//     }
-//   }
-// }
 
 export default LandingPage
