@@ -5,7 +5,7 @@ const buildClient = ({ req }) => {
   if (typeof window === 'undefined') {
     // we are on the server
     const instance = axios.create({
-      baseURL: 'http://ticket.devaibhav.live',
+      baseURL: 'http://ticket.devaibhav.me',
       headers: {
         ...req.headers,
         accept: 'application/json',
