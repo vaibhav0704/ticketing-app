@@ -29,8 +29,8 @@ router.post(
 
     try {
       const session = await stripe.checkout.sessions.create({
-        success_url: `https://ticketing.dev/orders/`,
-        cancel_url: `https://ticketing.dev/orders/`,
+        success_url: `http://ticket.devaibhav.me/orders/`,
+        cancel_url: `http://ticket.devaibhav.me/orders/`,
         currency: "inr",
         mode: 'payment',
         line_items: [{
