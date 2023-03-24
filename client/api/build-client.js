@@ -5,7 +5,7 @@ const buildClient = ({ req }) => {
   if (typeof window === 'undefined') {
     // we are on the server
     const instance = axios.create({
-      baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+      baseURL: 'http://ticket.devaibhav.me',
       headers: {
         ...req.headers,
         accept: 'application/json',
