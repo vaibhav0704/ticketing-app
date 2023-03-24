@@ -1,2 +1,4 @@
 node_modules
 whsec.ts
+cert-manager-values.yaml
+issuer.yaml
