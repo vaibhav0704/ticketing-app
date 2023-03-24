@@ -16,7 +16,7 @@ router.post(
       .isEmpty()
   ],
   validateRequest,
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response)=> {
     const { orderId } = req.body;
 
     const order = await Order.findById(orderId);
