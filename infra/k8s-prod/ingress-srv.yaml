@@ -12,7 +12,7 @@ spec:
       - ticket.devaibhav.me
       secretName: letsencrypt-nginx
   rules:
-    - host: api.devaibhav.me
+    - host: ticket.devaibhav.me
       http:
         paths:
           - path: /api/users/?(.*)
@@ -50,7 +50,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: "true"
-    service.beta.kubernetes.io/do-loadbalancer-hostname: 'api.devaibhav.me'
+    service.beta.kubernetes.io/do-loadbalancer-hostname: 'ticket.devaibhav.me'
   labels:
     helm.sh/chart: ingress-nginx-2.0.3
     app.kubernetes.io/name: ingress-nginxlive
